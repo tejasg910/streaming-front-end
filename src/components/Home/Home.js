@@ -40,7 +40,7 @@ const Home = () => {
               children="Find Valuable Content At Reasonable Price"
             />
             <Link to="/courses">
-              <Button size={'lg'} colorScheme="yellow">
+              <Button size={'lg'} colorScheme="cyan" color="white">
                 Explore Now
               </Button>
             </Link>
@@ -59,7 +59,7 @@ const Home = () => {
         <Heading
           textAlign={'center'}
           fontFamily="body"
-          color={'yellow.400'}
+          color={'cyan.400'}
           children="OUR BRANDS"
         />
         <HStack
