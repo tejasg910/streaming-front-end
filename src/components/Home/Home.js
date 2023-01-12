@@ -48,7 +48,7 @@ const Home = () => {
 
           <Image
             className="vector-graphics"
-            boxSize={['44', '44', '44']}
+            boxSize={['sm']}
             src={vg}
             objectFit="contain"
           />
