@@ -15,7 +15,7 @@ import vg from '../../assets/images/bg.png';
 import { CgGoogle, CgYoutube } from 'react-icons/cg';
 import { SiCoursera, SiUdemy } from 'react-icons/si';
 import { DiAws } from 'react-icons/di';
-import introVideo from '../../assets/videos/intro.mp4';
+import introVideo from '../../assets/videos/introvideo.mp4';
 const Home = () => {
   return (
     <section className="home">
@@ -40,7 +40,7 @@ const Home = () => {
               children="Find Valuable Content At Reasonable Price"
             />
             <Link to="/courses">
-              <Button size={'lg'} colorScheme="cyan" color="white">
+              <Button size={'lg'} colorScheme="cyan" color="purple">
                 Explore Now
               </Button>
             </Link>
@@ -80,7 +80,6 @@ const Home = () => {
           controls
           controlsList="nodownload nofullscreen noremoteplayback"
           disablePictureInPicture
-          disableRemotePlayback
           src={introVideo}
         ></video>
       </div>
