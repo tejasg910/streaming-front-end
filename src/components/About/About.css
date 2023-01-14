@@ -1,0 +1,7 @@
+.container2 video {
+    /* border: 1px solid rgba(0, 0, 0, 0.053); */
+    width: 60%;
+    box-shadow: 0 0 10px rgba(40, 33, 33, 0.637);
+    border-radius: 5px;
+    outline: none;
+}

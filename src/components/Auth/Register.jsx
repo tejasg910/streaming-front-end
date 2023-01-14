@@ -26,6 +26,7 @@ const Register = () => {
 
     const onImageHandler = (e) => {
         const file = e.target.files[0];
+
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
@@ -37,11 +38,11 @@ const Register = () => {
 
 
     return (
-        <Container h={"95vh"}>
+        <Container h={"full"}>
             <VStack h={"full"} justifyContent="center" spacing={"16"}>
                 <Heading textTransform={"uppercase"} children={"Register for the stream"} />
 
-                <form style={{ width: "100%" }}>
+                <form style={{ width: "100%" }} >
                     <Box marginY={"4"} display={"flex"} justifyContent={"center"}>
                         <Avatar src={imagePrev} size={"2xl"} />
                     </Box>
@@ -88,11 +89,11 @@ const Register = () => {
                         />
 
                     </Box>
-                    <Box>
 
-                        <Button my={"4"} type={"submit"} colorScheme={"cyan"}>Sign Up</Button>
-                    </Box>
-                    <Box marginY={"4"}>Already Registered?  <Link to="/login"><Button colorScheme={"cyan"} variant={"link"}>Login</Button>{" "} here</Link></Box>
+
+                    <Button type={"submit"} colorScheme={"cyan"}>Sign Up</Button>
+
+                    <Box >Already Registered?  <Link to="/login"><Button colorScheme={"cyan"} variant={"link"}>Login</Button>{" "} here</Link></Box>
 
                 </form>
             </VStack>

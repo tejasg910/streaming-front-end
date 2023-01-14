@@ -25,7 +25,7 @@ const ResetPassword = () => {
 
                     <Button my={"4"} type={"submit"} colorScheme={"cyan"}>Next</Button>
 
-                    <Box marginY={"4"}>New User?  <Link to="/register"><Button colorScheme={"cyan"} variant={"link"}>Sign Up</Button>{" "} here</Link></Box>
+                    <Box marginY={"4"}>Back to <Link to="/login"><Button colorScheme={"cyan"} variant={"link"}>login</Button>{" "} here</Link></Box>
                 </form>
             </VStack>
         </Container>
