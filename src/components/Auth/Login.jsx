@@ -1,4 +1,5 @@
-import { Box, Button, Container, FormLabel, Heading, Input, Link, VStack } from '@chakra-ui/react'
+import { Box, Button, Container, FormLabel, Heading, Input, VStack } from '@chakra-ui/react'
+import { Link } from "react-router-dom"
 import React, { useState } from 'react'
 
 const Login = () => {
@@ -30,8 +31,10 @@ const Login = () => {
                         />
 
                     </Box>
+                    <Button my={"4"} type={"submit"} colorScheme={"cyan"}>Sign in</Button>
+
                     <Box>
-                        <Link top={"/forgetpassword"}><Button fontSize={"sm"} variant={"link"} marginY={"4"} colorScheme={"cyan"}>Forgot password</Button></Link>
+                        <Link to={"/forgetpassword"}><Button fontSize={"sm"} variant={"link"} marginY={"4"} colorScheme={"cyan"}>Forgot password</Button></Link>
                     </Box>
                     <Box marginY={"4"}>New User?  <Link to="/register"><Button colorScheme={"cyan"} variant={"link"}>Sign Up</Button>{" "} here</Link></Box>
                 </form>

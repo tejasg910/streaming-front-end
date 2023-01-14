@@ -66,9 +66,9 @@ const Header = () => {
                                     </VStack>
 
                                 </>) : (<>
-                                    <Link to={"/login"}><Button colorScheme={"cyan"} color="white">Login</Button></Link>
+                                    <Link onClick={onClose} to={"/login"}><Button colorScheme={"cyan"} color="white">Login</Button></Link>
                                     <p>or</p>
-                                    <Link to={"/register"}><Button colorScheme={"cyan"} color="white" >Sign up</Button></Link>
+                                    <Link onClick={onClose} to={"/register"}><Button colorScheme={"cyan"} color="white" >Sign up</Button></Link>
 
                                 </>)}
                             </HStack>
