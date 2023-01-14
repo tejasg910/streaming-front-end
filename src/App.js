@@ -10,6 +10,10 @@ import Courses from './components/Courses/Courses';
 import Home from './components/Home/Home';
 import Footer from './components/layout/Footer/Footer';
 import Header from './components/layout/Header/Header';
+import NotFound from './components/layout/Notfound/NotFound';
+import PaymentFail from './components/Payment/PaymentFail';
+import PaymentSuccess from './components/Payment/PaymentSuccess';
+import Subscribe from './components/Payment/Subscribe';
 import Request from './components/Request/Request';
 function App() {
   return (
@@ -25,6 +29,10 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/request" element={<Request />} />
         <Route path="/about" element={<About />} />
+        <Route path="/subscribe" element={<Subscribe />} />
+        <Route path="/paymentsuccess" element={<PaymentSuccess />} />
+        <Route path="/paymentfail" element={<PaymentFail />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>
