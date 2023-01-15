@@ -17,7 +17,7 @@ function LinkButton({ url = "/", title = "home", onclose }) {
 const Header = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const isAuthenticated = false;
+    const isAuthenticated = true;
     const user = { role: "admin" }
     const logOutHandler = () => {
         console.log('log out')
@@ -25,7 +25,7 @@ const Header = () => {
     return (
         <>
             <ColorModeSwitcher />
-            <Button onClick={onOpen} colorScheme={"cyan"} color="white" rounded={"full"} position="fixed" height={"12"} width={"12"} top={"6"} left={"6"}>
+            <Button onClick={onOpen} zIndex={10} colorScheme={"cyan"} color="white" rounded={"full"} position="fixed" height={"12"} width={"12"} top={"6"} left={"6"}>
                 <RiMenu5Fill />
 
             </Button>
