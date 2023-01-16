@@ -1,8 +1,9 @@
 import { Box, Grid, Heading, HStack, Progress, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
-import { RiArrowDownLine, RiArrowUpLine, RiGridLine } from 'react-icons/ri'
+import { RiArrowDownLine, RiArrowUpLine } from 'react-icons/ri'
 import cursor from "../../../assets/images/cursor.png"
 import Sidebar from '../Sidebar'
+import { DoughnutChart, LineChart } from './Chart'
 
 
 const Bar = ({ title, value, profit }) => {
@@ -74,6 +75,8 @@ const Dashboard = () => {
 
                     <Heading textAlign={["center", "left"]} size={"md"} children={"Views Graph"} paddingTop={["8", "0"]} marginLeft={["0", "16"]} />
                     {/* Line graph here  */}
+
+                    <LineChart />
                 </Box>
 
                 <Grid templateColumns={["1fr", "2fr 1fr"]}>
@@ -85,10 +88,14 @@ const Dashboard = () => {
                             <Bar profit={false} title="Subscription" value={34} />
 
                         </Box>
-                        <Box p={['0', '16']} boxSizing="border-box">
-                            <Heading textAlign={"center"} size={"md"} marginBottom={["4"]} children={"Users"} />
 
-                        </Box>
+                    </Box>
+                    <Box p={['0', '16']} boxSizing="border-box">
+
+
+                        <Heading textAlign={"center"} size={"md"} marginBottom={["4"]} children={"Users"} />
+                        <DoughnutChart />
+
                     </Box>
                 </Grid>
             </Box>
