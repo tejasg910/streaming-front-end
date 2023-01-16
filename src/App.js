@@ -1,6 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import About from './components/About/About';
+import AdminCourses from './components/Admin/AdminCourses/AdminCourses';
+import CreateCourse from './components/Admin/CreateCourse/CreateCourse';
+import Dashboard from './components/Admin/Dashboard/Dashboard';
+import Users from './components/Admin/User/Users';
 import Forgot from './components/Auth/Forgot';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
@@ -45,6 +49,13 @@ function App() {
         <Route path="/subscribe" element={<Subscribe />} />
         <Route path="/paymentsuccess" element={<PaymentSuccess />} />
         <Route path="/paymentfail" element={<PaymentFail />} />
+
+        {/* Admin routes  */}
+
+        <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/createcourse" element={<CreateCourse />} />
+        <Route path="/admin/users" element={<Users />} />
+        <Route path="/admin/courses" element={<AdminCourses />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
