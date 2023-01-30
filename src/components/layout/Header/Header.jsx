@@ -6,6 +6,7 @@ import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '
 import { useDisclosure } from '@chakra-ui/react-use-disclosure'
 import { HStack, VStack } from '@chakra-ui/layout'
 import { Link } from 'react-router-dom'
+
 function LinkButton({ url = "/", title = "home", onclose }) {
     return (<Link onClick={onclose} to={url}>
         <Button variant={"ghost"}>
@@ -14,11 +15,11 @@ function LinkButton({ url = "/", title = "home", onclose }) {
 
     </Link>)
 }
-const Header = () => {
+const Header = ({ isAuthenticated = false, user }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const isAuthenticated = true;
-    const user = { role: "admin" }
+
+
     const logOutHandler = () => {
         console.log('log out')
     }

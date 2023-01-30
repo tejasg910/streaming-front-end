@@ -1,9 +1,9 @@
 import { Box, Button, Container, Grid, Heading, Image, Input, Select, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { RiGridLine } from 'react-icons/ri'
-import cursor from "../../../assets/images/cursor.png"
-import { fileUploadCss } from '../../Auth/Register'
-import Sidebar from '../Sidebar'
+import React, { useState } from 'react';
+import { RiGridLine } from 'react-icons/ri';
+import cursor from "../../../assets/images/cursor.png";
+import { fileUploadCss } from '../../Auth/Register';
+import Sidebar from '../Sidebar';
 const CreateCourse = () => {
     const fileUploadStyle = {
         "&::file-selector-button": fileUploadCss
@@ -67,7 +67,7 @@ const CreateCourse = () => {
                             focusBorderColor={"cyan.500"}
                         />
 
-                        <Select focusBorderColor='blue.300' value={category} onChange={(e) => { setCreatedBy(e.target.value) }} >
+                        <Select focusBorderColor='blue.300' value={category} onChange={(e) => { setCategory(e.target.value) }} >
 
                             <option value="">Category</option>
                             {categories.map((item, index) => {

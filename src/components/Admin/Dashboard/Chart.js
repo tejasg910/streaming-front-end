@@ -42,7 +42,7 @@ export const LineChart = () => {
     datasets: [
       {
         label: 'Views',
-        data: [1, 3, 6, 25],
+        data: [1, 3, 6, 25, 56, 34, 78, 45, 89, 76, 86, 23],
         borderColor: 'rgba(107,70,193,0.5)',
         backgroundColor: '#6b46c1',
       },
