@@ -6,6 +6,8 @@ import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '
 import { useDisclosure } from '@chakra-ui/react-use-disclosure'
 import { HStack, VStack } from '@chakra-ui/layout'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { logOut } from '../../../redux/actions/user'
 
 function LinkButton({ url = "/", title = "home", onclose }) {
     return (<Link onClick={onclose} to={url}>
@@ -18,10 +20,13 @@ function LinkButton({ url = "/", title = "home", onclose }) {
 const Header = ({ isAuthenticated = false, user }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+    const dispatch = useDispatch();
 
     const logOutHandler = () => {
-        console.log('log out')
+
+
+        onClose()
+        dispatch(logOut())
     }
     return (
         <>
