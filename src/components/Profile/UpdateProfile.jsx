@@ -1,13 +1,47 @@
 import { Box, Button, Container, FormLabel, Heading, Input, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { toast } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProfile } from '../../redux/actions/profile';
+import { loadUser } from '../../redux/actions/user';
 
-const UpdateProfile = () => {
-    const [userName, setUserName] = useState("");
-    const [email, setEmail] = useState("");
+const UpdateProfile = ({ user }) => {
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
 
+    const dispatch = useDispatch()
+    const submitHandler = async e => {
+        e.preventDefault();
+
+
+        await dispatch(updateProfile(name, email));
+        dispatch(loadUser())
+
+    };
+
+    const { error, message, loading } = useSelector(state => state.profile)
+
+    useEffect(() => {
+
+        try {
+            if (error) {
+                toast.error(error)
+                dispatch({ type: "clearError" });
+            }
+            if (message) {
+                toast.success(message)
+
+                dispatch({ type: "clearMessage" })
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+
+
+    }, [dispatch, error, message]);
     return (
         <Container paddingY={"16"} minH={"90vh"}>
-            <form
+            <form onSubmit={submitHandler}
             >
                 <Heading children={"Update Profile"}
                     textTransform={"uppercase"}
@@ -16,7 +50,7 @@ const UpdateProfile = () => {
 
 
 
-                    <Input margin={"4"} id='name' value={userName} onChange={(e) => { setUserName(e.target.value) }}
+                    <Input margin={"4"} id='name' value={name} onChange={(e) => { setName(e.target.value) }}
                         placeholder={"Enter Name"}
                         type={"Text"}
                         borderColor={"blue"}
@@ -34,7 +68,7 @@ const UpdateProfile = () => {
 
 
 
-                    <Button w={"full"} colorScheme={"cyan"} type={"submit"}>Save</Button>
+                    <Button isLoading={loading} w={"full"} colorScheme={"cyan"} type={"submit"}>Save</Button>
 
 
                 </VStack>
