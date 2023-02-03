@@ -38,10 +38,12 @@ const VideoPlayer = () => {
 }
 
 const Founder = () => {
+    const profile = "https://res.cloudinary.com/dymgcz8qy/image/upload/v1675440903/cth0qoeavsojaq7wnaxz.jpg"
     return (
+
         <Stack direction={["column", "column", "row"]} spacing={["4", "16"]} padding={"4"}>
             <VStack>
-                <Avatar boxSize={["40", "48"]} />
+                <Avatar boxSize={["40", "48"]} src={profile} />
                 <Text children={"Founder"} opacity={"0.7"} />
 
             </VStack>

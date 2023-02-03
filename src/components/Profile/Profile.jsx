@@ -79,7 +79,7 @@ const Profile = ({ user }) => {
                     </HStack>
                     {user.role !== "admin" && <HStack >
                         <Text children={"Subscription: "} fontWeight={"bold"} />
-                        {user.subscription.status === "active" ? (<Button colorScheme={"red"}>Cancel Subscription</Button>) :
+                        {user.subscription && user.subscription.status === "active" ? (<Button colorScheme={"red"}>Cancel Subscription</Button>) :
                             (<Link to={"/subscribe"}><Button colorScheme={"purple"}>Subscribe</Button></Link>)
                         }
 

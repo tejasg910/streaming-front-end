@@ -137,7 +137,10 @@ function App() {
             />
             <Route path="/contact" element={<Contact />} />
             <Route path="/request" element={<Request />} />
-            <Route path="/about" element={<About />} />
+            <Route
+              path="/about"
+              element={<About user={user} isAuthenticated={isAuthenticated} />}
+            />
             <Route
               path="/subscribe"
               element={

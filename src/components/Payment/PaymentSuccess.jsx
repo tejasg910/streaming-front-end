@@ -8,8 +8,8 @@ const PaymentSuccess = () => {
         <Container h="90vh" p="16">
             <Heading children={"You have pro pack"} my="8" textAlign={"center"} />
             <VStack boxShadow={"lg"} pb={"16"} alignItems={"center"} borderRadius={"lg"}>
-                <Box width={"full"} bg={"cyan"} padding={"4"} css={{ borderRadius: "8px 8px 0 0 " }}>
-                    <Text children={"Payment Success"} color={"black"} />
+                <Box width={"full"} bg={"green"} padding={"4"} css={{ borderRadius: "8px 8px 0 0 " }}>
+                    <Text children={"Payment Success"} color={"white"} />
 
 
                 </Box>

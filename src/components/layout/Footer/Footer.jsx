@@ -7,7 +7,9 @@ const Footer = () => {
     return (
         <Box padding={"2"} bg={"blackAlpha.900"}>
             <Stack direction={["column", "row"]} minHeight={"6vh"} >
-                <Stack direction={["column", "row"]} alignItems={["center", "flex-start"]} width={"full"}>
+                <Stack direction={["column", "row"]}
+
+                    alignItems={["center", "flex-start"]} width={"full"}>
                     <Text children={"All rights reserved by "}
                         size={"sm"}
                         color={"white"}
@@ -23,7 +25,7 @@ const Footer = () => {
 
 
                 </Stack>
-                <HStack spacing={["2", "10"]} justifyContent={"center"} color={"white"} fontSize={"50"}>
+                <HStack spacing={["2", "10"]} justifyContent={"center"} color={"white"} fontSize={"28"}>
 
                     <a href='https://www.instagram.com/tejas_giri24/' target={"_blank"}>
                         <TiSocialInstagramCircular />

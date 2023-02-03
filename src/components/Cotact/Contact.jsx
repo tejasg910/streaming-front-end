@@ -1,14 +1,36 @@
-import { Box, Button, Container, FormLabel, Heading, Input, Textarea, VStack } from '@chakra-ui/react'
+import { Box, Button, Container, FormLabel, Heading, Input, Textarea, useDisclosure, VStack } from '@chakra-ui/react'
 import { Link } from "react-router-dom"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { contact } from '../../redux/actions/other';
+import { toast } from 'react-hot-toast';
 
 const Contact = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
+    const [text, setText] = useState("");
+    const dispatch = useDispatch();
 
+    const { loading, message, error } = useSelector(state => state.other)
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
+        dispatch(contact(name, email, text));
+
+    }
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error)
+            dispatch({ type: "clearError" })
+        }
+        if (message) {
+            toast.success(message)
+            dispatch({ type: "clearMessage" })
+        }
+
+    }, [error, message, dispatch]);
     return (
         <Container h={"95vh"}>
             <VStack>
@@ -37,7 +59,7 @@ const Contact = () => {
                     </Box>
                     <Box marginY={"4"}>
                         <FormLabel htmlFor='message' children={"Message..."} />
-                        <Textarea required id='message' value={message} onChange={(e) => { setMessage(e.target.value) }}
+                        <Textarea required id='message' value={message} onChange={(e) => { setText(e.target.value) }}
                             placeholder={"Message"}
                             type={"text"}
                             borderColor={"blue"}
@@ -50,7 +72,7 @@ const Contact = () => {
 
                     <Box>
 
-                        <Button my={"4"} type={"submit"} colorScheme={"cyan"}>Send </Button>
+                        <Button isLoading={loading} onClick={handleSubmit} my={"4"} type={"submit"} colorScheme={"cyan"}>Send </Button>
                     </Box>
 
                     <Box>

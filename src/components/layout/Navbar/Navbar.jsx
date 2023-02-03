@@ -31,7 +31,7 @@ const Navbar = ({ user, isAuthenticated }) => {
                 </Button>
 
                 }
-                {/* {isAuthenticated && <Avatar boxSize={"10"} src={user.avatar.url} marginTop={"-3"} /> }*/}
+                {isAuthenticated && <Avatar boxSize={"10"} src={user.avatar.url} marginTop={"-3"} />}
             </Box>
 
         </Flex >
