@@ -5,15 +5,16 @@ import { toast } from 'react-hot-toast'
 import { RiDeleteBin7Fill } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { updateProfilePicture } from '../../redux/actions/profile'
+import { removeFromPlayList, updateProfilePicture } from '../../redux/actions/profile'
 import { loadUser } from '../../redux/actions/user'
 import { fileUploadCss } from '../Auth/Register'
 const Profile = ({ user }) => {
     const dispatch = useDispatch()
 
     const { loading, message, error } = useSelector(state => state.profile)
-    const removeFromPlaylistHandler = () => {
-
+    const removeFromPlaylistHandler = async (id) => {
+        await dispatch(removeFromPlayList(id))
+        dispatch(loadUser())
     }
 
     const changeImageSubmitHandler = async (e, image) => {
@@ -21,7 +22,7 @@ const Profile = ({ user }) => {
         e.preventDefault();
         const myForm = new FormData();
 
-
+        myForm.append('email', user.email)
         myForm.append('file', image);
 
         await dispatch(updateProfilePicture(myForm));
@@ -112,7 +113,7 @@ const Profile = ({ user }) => {
                     >
 
                         {
-                            user.playList.map((item, index) => {
+                            user.playlist.map((item, index) => {
                                 return (
                                     <VStack width={"48"} m="2" key={index} >
                                         <Image boxSize={"full"} objectFit={"contain"} src={item.poster} />
@@ -122,7 +123,7 @@ const Profile = ({ user }) => {
 
                                             </Link>
 
-                                            <Button onClick={() => { removeFromPlaylistHandler(item.course) }}><RiDeleteBin7Fill /></Button>
+                                            <Button isLoading={loading} onClick={() => { removeFromPlaylistHandler(item.course) }}><RiDeleteBin7Fill /></Button>
                                         </HStack>
                                     </VStack>
                                 )

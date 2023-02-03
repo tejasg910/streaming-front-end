@@ -2,13 +2,14 @@ import { Box, Button, Container, FormLabel, Heading, Input, VStack } from '@chak
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { updateProfile } from '../../redux/actions/profile';
 import { loadUser } from '../../redux/actions/user';
 
 const UpdateProfile = ({ user }) => {
     const [name, setName] = useState(user.name);
     const [email, setEmail] = useState(user.email);
-
+    const navigate = useNavigate();
     const dispatch = useDispatch()
     const submitHandler = async e => {
         e.preventDefault();
@@ -16,6 +17,7 @@ const UpdateProfile = ({ user }) => {
 
         await dispatch(updateProfile(name, email));
         dispatch(loadUser())
+        navigate("/profile")
 
     };
 

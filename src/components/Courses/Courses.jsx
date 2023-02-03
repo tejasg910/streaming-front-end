@@ -1,9 +1,14 @@
 import { Button, Container, Heading, HStack, Image, Input, Stack, Text, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { ErrorIcon, toast } from 'react-hot-toast'
+import { SiTryitonline } from 'react-icons/si'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { getAllCourses } from '../../redux/actions/course'
+import { addToPlayList } from '../../redux/actions/profile'
+import { loadUser } from '../../redux/actions/user'
 
-const Course = ({ views, title, imageSrc, id, handelPlayList, creater, description, lecture }) => {
-
+const Course = ({ views, title, imageSrc, id, creator, description, loading, addToPlaylistHandler, lectureCount }) => {
     return (
         <VStack className='course' alignItems={["center", "flex-start"]}>
             <Image src={imageSrc} boxSize="60" objectFit={"contain"} />
@@ -15,13 +20,13 @@ const Course = ({ views, title, imageSrc, id, handelPlayList, creater, descripti
             <Text children={description} noOfLines={2} />
             <HStack>
                 <Text children={"creater: "} noOfLines={1} fontFamily={"body"} />
-                <Text children={creater} noOfLines={1} fontWeight={"bold"} textTransform={"uppercase"} />
+                <Text children={creator} noOfLines={1} fontWeight={"bold"} textTransform={"uppercase"} />
 
 
 
             </HStack>
 
-            <Heading textAlign={"center"} size={"xs"} children={`Lectures count:  ${lecture}`} />
+            <Heading textAlign={"center"} size={"xs"} children={`Lectures count:  ${lectureCount}`} />
             <Heading textAlign={"center"} size={"xs"} children={`Views:  ${views}`} />
             <Stack direction={["column", "row"]}
                 alignItems={"center"}>
@@ -32,8 +37,8 @@ const Course = ({ views, title, imageSrc, id, handelPlayList, creater, descripti
                     </Button>
                 </Link>
 
-                <Button variant={"ghost"} colorScheme={"yellow"} onClick={() => {
-                    handelPlayList(id)
+                <Button isLoading={loading} variant={"ghost"} colorScheme={"yellow"} onClick={() => {
+                    addToPlaylistHandler(id)
                 }}>
 
 
@@ -45,9 +50,11 @@ const Course = ({ views, title, imageSrc, id, handelPlayList, creater, descripti
     )
 }
 const Courses = () => {
-
+    const dispatch = useDispatch();
     const [keyword, setKeyword] = useState("");
     const [category, setCategory] = useState("")
+
+    const { loading, error, courses, message } = useSelector(state => state.course);
     const categories = [
         "Web Development",
         "Data Structures and Algorithm",
@@ -58,9 +65,35 @@ const Courses = () => {
         "Game Development"
     ]
 
-    const handelPlayList = (id) => {
-        console.log("added playlist")
+    const addToPlaylistHandler = async (id) => {
+        dispatch(addToPlayList(id));
+        dispatch(loadUser())
+        dispatch(getAllCourses(category, keyword))
+
     }
+
+    useEffect(() => {
+        try {
+            if (error) {
+                toast.error(error)
+                dispatch({ type: "clearError" });
+            }
+            if (message) {
+                toast.success(message);
+                dispatch({ type: "clearMessage" });
+            }
+
+
+
+        } catch (error) {
+
+        }
+    }, [message, error, dispatch, keyword, category]);
+    useEffect(() => {
+        dispatch(getAllCourses(category, keyword))
+    }, []);
+    console.log(courses)
+
     return (
         <Container minH={"95vh"} maxW={"container.lg"} padding="8">
             <Heading children="All Courses" m={"8"} />
@@ -86,18 +119,25 @@ const Courses = () => {
                 }
             </HStack>
             <Stack direction={["column", "row"]} flexWrap="wrap" justifyContent={["flex-start", "space-evenly"]} alignItems={["center", "flex-start"]}>
-
-                <Course
-                    title={"Sample title"}
-                    creater={"John Doe"}
-                    views={4508024858}
-                    imageSrc={"https://cdn.pixabay.com/photo/2015/06/24/15/45/code-820275_960_720.jpg"}
-                    description={"this is description "}
-                    lecture={2}
-                    handelPlayList={handelPlayList}
-                    id={9420880503209}
-                />
-
+                {!courses && <Heading mt="4" children="Courses Not Found" />}
+                {courses && Array.isArray(courses) && courses.length > 0 ? (
+                    courses.map(item => (
+                        <Course
+                            key={item._id}
+                            title={item.title}
+                            description={item.description}
+                            views={item.views}
+                            imageSrc={item.poster.url}
+                            id={item._id}
+                            creator={item.createdBy}
+                            lectureCount={item.numOfVideos}
+                            addToPlaylistHandler={addToPlaylistHandler}
+                            loading={loading}
+                        />
+                    ))
+                ) : (
+                    <Heading mt="4" children="Courses Not Found" />
+                )}
 
 
             </Stack>
