@@ -18,7 +18,7 @@ const Navbar = ({ user, isAuthenticated }) => {
 
 
 
-            <HStack>
+            <HStack marginTop={"-3"}>
 
 
                 <Heading children="Welcome" size={"md"} />
@@ -31,9 +31,7 @@ const Navbar = ({ user, isAuthenticated }) => {
                 </Button>
 
                 }
-                {isAuthenticated && <Avatar boxSize={"10"} src={user.avatar.url} size={"40px"} marginTop={"-2"} />
-
-                }
+                {/* {isAuthenticated && <Avatar boxSize={"10"} src={user.avatar.url} marginTop={"-3"} /> }*/}
             </Box>
 
         </Flex >

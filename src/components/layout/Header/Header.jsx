@@ -31,7 +31,7 @@ const Header = ({ isAuthenticated = false, user }) => {
     return (
         <>
             <ColorModeSwitcher />
-            <Button onClick={onOpen} zIndex={10} colorScheme={"cyan"} color="white" rounded={"full"} position="fixed" height={"12"} width={"12"} top={"6"} left={"6"}>
+            <Button onClick={onOpen} zIndex={10} colorScheme={"cyan"} color="white" rounded={"full"} position="fixed" height={"12"} width={"12"} top={"2"} left={"6"}>
                 <RiMenu5Fill />
 
             </Button>

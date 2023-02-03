@@ -68,7 +68,7 @@ const Courses = () => {
     const addToPlaylistHandler = async (id) => {
         dispatch(addToPlayList(id));
         dispatch(loadUser())
-        dispatch(getAllCourses(category, keyword))
+        dispatch(getAllCourses(keyword, category))
 
     }
 
