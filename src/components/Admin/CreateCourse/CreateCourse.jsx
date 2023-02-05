@@ -71,7 +71,7 @@ const CreateCourse = () => {
 
         }
 
-    }, []);
+    }, [error, message]);
     return (
 
         <Grid css={{ cursor: `url(${cursor}), default` }} minHeight={"100vh"} templateColumns={["1fr", "5fr 1fr"]}>

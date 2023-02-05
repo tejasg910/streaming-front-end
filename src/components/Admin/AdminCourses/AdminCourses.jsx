@@ -1,15 +1,24 @@
-import { Box, Button, Grid, Heading, HStack, Image, Tab, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Button, Grid, Heading, HStack, Image, Tab, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure, useStatStyles } from '@chakra-ui/react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
+import { toast } from 'react-hot-toast'
 import { RiDeleteBin7Fill, RiGridLine } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import cursor from "../../../assets/images/cursor.png"
+import { deleteCourse, deleteLectures } from '../../../redux/actions/admin'
 import { getAllCourses, getCourseLectures } from '../../../redux/actions/course'
 import Sidebar from '../Sidebar'
 import CourseModal from './CourseModal'
 const AdminCourses = () => {
+
+    const [courseTitle, setcourseTitle] = useState("");
+    const [courseId, setCourseId] = useState("");
+
     const dispatch = useDispatch();
     const { loading, lectures, courses, error } = useSelector(state => state.course)
+
+    const { loading: adminLoading, error: adminError, message: adminMessage } = useSelector(state => state.admin)
+
 
 
     const { isOpen, onClose, onOpen } = useDisclosure();
@@ -17,14 +26,19 @@ const AdminCourses = () => {
 
 
     const deleteCourseHandler = (_id) => {
+        dispatch(deleteCourse(_id))
+
         console.log(_id)
     }
 
-    const courseDetailsHandler = async (_id) => {
+    const courseDetailsHandler = async (_id, title) => {
+        setcourseTitle(title)
+        setCourseId(_id)
         await dispatch(getCourseLectures(_id))
         onOpen();
     }
-    const deleteLectureHandler = (courseId, lectureId) => {
+    const deleteLectureHandler = (lectureId) => {
+        dispatch(deleteLectures(courseId, lectureId))
         console.log(courseId, lectureId);
     }
     const addLectureHandler = (e, coruseId, title, description, video) => {
@@ -37,7 +51,21 @@ const AdminCourses = () => {
     useEffect(() => {
         dispatch(getAllCourses())
 
-    }, [courses, loading, error, lectures]);
+    }, [adminMessage, adminError]);
+    useEffect(() => {
+        if (adminError) {
+            toast.error(adminError)
+            dispatch({ type: "clearError" })
+        }
+        if (adminMessage) {
+
+            toast.success(adminMessage)
+            dispatch({ type: "clearMessage" })
+        }
+
+    }, [adminError, adminMessage]);
+
+
     return (
         <Grid css={{ cursor: `url(${cursor}), default` }} minHeight={"100vh"} templateColumns={["1fr", "5fr 1fr"]}>
 
@@ -69,13 +97,15 @@ const AdminCourses = () => {
                         <Tbody>
                             {
                                 courses.map((item) => {
-                                    return <Row key={item._id} item={item} deleteCourseHandler={deleteCourseHandler} courseDetailsHandler={courseDetailsHandler} />
+                                    return <Row key={item._id} item={item}
+                                        loading={adminLoading}
+                                        deleteCourseHandler={deleteCourseHandler} courseDetailsHandler={() => { courseDetailsHandler(item._id, item.title) }} />
                                 })
                             }
                         </Tbody>
                     </Table>
                 </TableContainer>
-                <CourseModal addLectureHandler={addLectureHandler} isOpen={isOpen} onClose={onClose} id={"40390052"} courseTitle={"intro to css"} deleteLectureHandler={deleteLectureHandler} lectures={lectures} />
+                <CourseModal loading={loading} addLectureHandler={addLectureHandler} isOpen={isOpen} onClose={onClose} id={courseId} courseTitle={courseTitle} deleteLectureHandler={deleteLectureHandler} lectures={lectures} />
             </Box>
             <Sidebar />
         </Grid>
@@ -85,7 +115,7 @@ const AdminCourses = () => {
 
 
 
-function Row({ item, courseDetailsHandler, deleteCourseHandler }) {
+function Row({ item, courseDetailsHandler, deleteCourseHandler, loading }) {
     return (
         <Tr>
             <Td>
@@ -111,7 +141,7 @@ function Row({ item, courseDetailsHandler, deleteCourseHandler }) {
                 <HStack justifyContent={"flex"}
                 >
                     <Button onClick={() => { courseDetailsHandler(item._id) }} variant={"outline"} color={"purple.500"}>View Lecture</Button>
-                    <Button onClick={() => { deleteCourseHandler(item._id) }} color={"red"}><RiDeleteBin7Fill /></Button>
+                    <Button isLoading={loading} onClick={() => { deleteCourseHandler(item._id) }} color={"red"}><RiDeleteBin7Fill /></Button>
                 </HStack>
             </Td>
         </Tr>

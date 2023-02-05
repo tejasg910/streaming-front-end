@@ -4,11 +4,11 @@ import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { fileUploadCss } from '../../Auth/Register';
 
 
-const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHandler, courseTitle, lectures = [1, 2, 4, 2, 4, 2, 4, 2, 4, 23] }) => {
+const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHandler, courseTitle, lectures, loading }) => {
     const fileUploadStyle = {
         "&::file-selector-button": fileUploadCss
     }
-    const CourseTitle = "Intro to CSS";
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [videoPrev, setVideoPrev] = useState("");
@@ -36,23 +36,29 @@ const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHand
         <Modal isOpen={isOpen} size={"full"} onClose={handleClose} scrollBehavior={"outside"}>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader >{CourseTitle}</ModalHeader>
+                <ModalHeader >{courseTitle}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody padding={"16"} >
                     <Grid templateColumns={["1fr", "3fr 1fr"]}>
                         <Box px={["0", "16"]}>
                             <Box my={"5"}>
-                                <Heading children="Course Title" />
+                                <Heading children={courseTitle} />
                                 <Heading children={`#${id}`} size={"sm"} opacity={0.4} />
 
                             </Box>
                             <Heading children={"Lecutres"} size={"lg"} />
-                            {lectures.map((item, i) => (
+                            {lectures && lectures.length > 0 ? lectures.map((item, i) => (
                                 <VideoCard
+                                    loading={loading}
                                     key={i}
-                                    title={item.title} description={item.description} num={i + 1} lectureId={item._id} courseId="48028023" deleteLectureHandler={deleteLectureHandler}
+                                    title={item.title} description={item.description} num={i + 1} lectureId={item._id} courseId="48028023" deleteLectureHandler={() => {
+                                        deleteLectureHandler(item._id)
+                                    }}
                                 />
-                            ))}
+
+                            )) :
+                                <Heading children={"No lecture found"} />
+                            }
 
 
                         </Box>
@@ -96,7 +102,7 @@ const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHand
 
 export default CourseModal
 
-function VideoCard({ title, description, num, lectureId, courseId, deleteLectureHandler }) {
+function VideoCard({ title, description, num, lectureId, courseId, deleteLectureHandler, loading }) {
     return <Stack direction={["column", "row"]} my="8" borderRadius={"lg"} boxShadow={'0 0 10px rgba(107, 70, 193, 0.5)'}
         justifyContent={["flex-start", "space-between"]}
         padding={["4", "8"]}
@@ -105,7 +111,7 @@ function VideoCard({ title, description, num, lectureId, courseId, deleteLecture
         <Box><Heading size={"sm"} children={`#${num} ${title}`} />
             <Text children={description} />
         </Box>
-        <Button color={"red"} onClick={() => { deleteLectureHandler(courseId, lectureId) }}><RiDeleteBin7Fill /> </Button>
+        <Button isLoading={loading} color={"red"} onClick={() => { deleteLectureHandler(courseId, lectureId) }}><RiDeleteBin7Fill /> </Button>
 
     </Stack>
 }
