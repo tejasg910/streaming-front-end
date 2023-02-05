@@ -1,9 +1,11 @@
 import { Box, Button, Container, Heading, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { BsCheckCircle } from 'react-icons/bs'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 const PaymentSuccess = () => {
+    const search = useSearchParams()[0].get('referencepay');
+
     return (
         <Container h="90vh" p="16">
             <Heading children={"You have pro pack"} my="8" textAlign={"center"} />
@@ -25,11 +27,11 @@ const PaymentSuccess = () => {
                     </VStack>
                 </Box>
 
-                <Link to={"profile"}>
+                <Link to={"/profile"}>
                     <Button variant={"ghost"} colorScheme={"cyan"}>Go back to Profile</Button>
                 </Link>
                 <Heading size={"xs"}>
-                    Reference:
+                    Reference: {search}
                 </Heading>
             </VStack>
 

@@ -11,6 +11,8 @@ const Subscribe = ({ user }) => {
 
     const dispatch = useDispatch();
     const [key, setKey] = useState("");
+    const { error: courseError } = useSelector(state => state.course)
+
     const { loading, error, subscriptionId } = useSelector(state => state.subscription)
     const subscribeHandler = async () => {
         const { data } = await axios.get(`${server}/razorpaykey`);
@@ -23,6 +25,10 @@ const Subscribe = ({ user }) => {
     useEffect(() => {
         if (error) {
             toast.error(error)
+        }
+        if (courseError) {
+            toast.error(courseError)
+            dispatch({ type: "clearError" });
         }
         dispatch({ type: "clearError" })
 
@@ -53,19 +59,19 @@ const Subscribe = ({ user }) => {
             }
             openPopUp()
         }
-    }, [error, dispatch, user.name, user.email, key, subscriptionId]);
+    }, [error, dispatch, user.name, user.email, key, subscriptionId, courseError]);
 
     return (
         <Container h={"90vh"} p={"16"}>
             <Heading children={"Welcome"} marginY={"8"} textAlign={"center"} />
-            <VStack boxShadow={
+            <VStack bgColor={"blackAlpha.800"} boxShadow={
                 "lg"
             } alignItems={"stretch"} borderRadius={"lg"} spacing={"0"}>
                 <Box bg={"cyan"} padding={"4"} css={{ borderRadius: "8px 8px 0 0" }} >
                     <Text children={`Pro pack - ₹299.00`} />
                 </Box>
                 <Box p="4">
-                    <VStack textAlign={"center"} paddingX={"8"} mt={"4"} spacing={"8"}>
+                    <VStack color={"white"} textAlign={"center"} paddingX={"8"} mt={"4"} spacing={"8"}>
                         <Heading color={"green.500"} children={"₹299.00 only"} size={"md"} />
                         <Text children={`Join pro pack and get access to all content`} />
                     </VStack>

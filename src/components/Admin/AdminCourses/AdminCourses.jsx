@@ -1,28 +1,27 @@
 import { Box, Button, Grid, Heading, HStack, Image, Tab, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
+import { useEffect } from 'react'
 import { RiDeleteBin7Fill, RiGridLine } from 'react-icons/ri'
+import { useDispatch, useSelector } from 'react-redux'
 import cursor from "../../../assets/images/cursor.png"
+import { getAllCourses, getCourseLectures } from '../../../redux/actions/course'
 import Sidebar from '../Sidebar'
 import CourseModal from './CourseModal'
 const AdminCourses = () => {
+    const dispatch = useDispatch();
+    const { loading, lectures, courses, error } = useSelector(state => state.course)
+
+
     const { isOpen, onClose, onOpen } = useDisclosure();
-    const courses = [{
-        _id: "43929309",
-        title: "Intro to CSS",
-        category: "web development",
-        poster: {
-            url: "https://cdn.pixabay.com/photo/2015/06/24/15/45/code-820275_960_720.jpg"
-        },
-        creator: "tejas",
-        views: 48,
-        numOfVideos: 10
-    }]
+
+
+
     const deleteCourseHandler = (_id) => {
         console.log(_id)
     }
 
-    const courseDetailsHandler = (_id) => {
-        console.log(_id)
+    const courseDetailsHandler = async (_id) => {
+        await dispatch(getCourseLectures(_id))
         onOpen();
     }
     const deleteLectureHandler = (courseId, lectureId) => {
@@ -31,6 +30,14 @@ const AdminCourses = () => {
     const addLectureHandler = (e, coruseId, title, description, video) => {
         e.preventDefault();
     }
+
+
+
+
+    useEffect(() => {
+        dispatch(getAllCourses())
+
+    }, [courses, loading, error, lectures]);
     return (
         <Grid css={{ cursor: `url(${cursor}), default` }} minHeight={"100vh"} templateColumns={["1fr", "5fr 1fr"]}>
 
@@ -68,7 +75,7 @@ const AdminCourses = () => {
                         </Tbody>
                     </Table>
                 </TableContainer>
-                <CourseModal addLectureHandler={addLectureHandler} isOpen={isOpen} onClose={onClose} id={"4320983209329-"} courseTitle={"intro to css"} deleteLectureHandler={deleteLectureHandler} />
+                <CourseModal addLectureHandler={addLectureHandler} isOpen={isOpen} onClose={onClose} id={"40390052"} courseTitle={"intro to css"} deleteLectureHandler={deleteLectureHandler} lectures={lectures} />
             </Box>
             <Sidebar />
         </Grid>

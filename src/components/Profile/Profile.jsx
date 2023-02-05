@@ -6,12 +6,14 @@ import { RiDeleteBin7Fill } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { removeFromPlayList, updateProfilePicture } from '../../redux/actions/profile'
-import { loadUser } from '../../redux/actions/user'
+import { cancelSubscription, loadUser } from '../../redux/actions/user'
 import { fileUploadCss } from '../Auth/Register'
 const Profile = ({ user }) => {
     const dispatch = useDispatch()
 
     const { loading, message, error } = useSelector(state => state.profile)
+
+    const { loading: subscriptionLoading, message: subscriptionMessage, error: subscriptionError } = useSelector(state => state.subscription)
     const removeFromPlaylistHandler = async (id) => {
         await dispatch(removeFromPlayList(id))
         dispatch(loadUser())
@@ -36,17 +38,33 @@ const Profile = ({ user }) => {
             toast.error(error)
             dispatch({ type: "clearError" });
         }
+
         if (message) {
             toast.success(message)
-
+            dispatch(loadUser())
             dispatch({ type: "clearMessage" })
+        }
+        if (subscriptionError) {
+            toast.success(subscriptionError)
+
+            dispatch({ type: "clearError" })
+        }
+        if (subscriptionMessage) {
+            toast.success(subscriptionMessage)
+            dispatch({ type: "clearMessage" })
+
         }
 
 
-
-    }, [dispatch, error, message]);
+    }, [dispatch, error, message, subscriptionMessage, subscriptionError]);
 
     const { isOpen, onClose, onOpen } = useDisclosure();
+    const cancelSubscriptionHandler = async () => {
+        await dispatch(cancelSubscription())
+        setTimeout(() => {
+            dispatch(loadUser())
+        }, 2000);
+    }
     return (
         <Container padding={"8"} minH={"95vh"} maxW={"container.lg"}>
             <Heading children="profile" textTransform={"uppercase"} m={"8"} />
@@ -79,7 +97,7 @@ const Profile = ({ user }) => {
                     </HStack>
                     {user.role !== "admin" && <HStack >
                         <Text children={"Subscription: "} fontWeight={"bold"} />
-                        {user.subscription && user.subscription.status === "active" ? (<Button colorScheme={"red"}>Cancel Subscription</Button>) :
+                        {user.subscription && user.subscription.status === "active" ? (<Button isLoading={subscriptionLoading} onClick={cancelSubscriptionHandler} colorScheme={"red"}>Cancel Subscription</Button>) :
                             (<Link to={"/subscribe"}><Button colorScheme={"purple"}>Subscribe</Button></Link>)
                         }
 

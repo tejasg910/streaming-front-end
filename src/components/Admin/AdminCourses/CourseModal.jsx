@@ -50,7 +50,7 @@ const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHand
                             {lectures.map((item, i) => (
                                 <VideoCard
                                     key={i}
-                                    title={courseTitle} description="this course is created by experts" num={i + 1} lectureId="34820802" courseId="48028023" deleteLectureHandler={deleteLectureHandler}
+                                    title={item.title} description={item.description} num={i + 1} lectureId={item._id} courseId="48028023" deleteLectureHandler={deleteLectureHandler}
                                 />
                             ))}
 
