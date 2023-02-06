@@ -193,7 +193,7 @@ function App() {
                   isAuthenticated={isAuthenticated}
                   isAdmin={user && user.role === 'admin'}
                 >
-                  <Users />
+                  <Users user={user} />
                 </ProtectedRoute>
               }
             />

@@ -4,38 +4,49 @@ import { useEffect } from 'react'
 import { RiDeleteBin7Fill, RiGridLine } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import cursor from "../../../assets/images/cursor.png"
-import { getUsers } from '../../../redux/actions/admin'
+import { deleteUser, getUsers, updateUserRole } from '../../../redux/actions/admin'
 import Sidebar from '../Sidebar'
-import Loader from "../../layout/Loader/Loader"
+
 import { toast } from 'react-hot-toast'
-const Users = () => {
+import { createBrowserHistory } from "history";
+import { useNavigate } from "react-router-dom";
+import { loadUser } from '../../../redux/actions/user'
+const Users = ({ user }) => {
     const { users, loading, error, message } = useSelector(state => state.admin)
-    const deleteUserHandler = (_id) => {
-        console.log(_id)
-    }
-
-    const updateHandler = (_id) => {
-        console.log(_id)
-    }
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const deleteUserHandler = (_id) => {
+
+        dispatch(deleteUser(_id))
+    }
+
+    const updateHandler = async (_id) => {
+        await dispatch(updateUserRole(_id))
+
+        if (user._id === _id) {
+            navigate("/profile");
+            dispatch(loadUser())
+        }
+    }
     useEffect(() => {
-
         if (error) {
-            toast.error(error)
-            dispatch({ type: "clearError" })
+            toast.error(error);
+            dispatch({ type: 'clearError' });
         }
-        if (message) {
-            toast.success(message)
-            dispatch({ type: "clearMessage" })
-        }
-        dispatch(getUsers())
-    }, [message, error]);
 
+        if (message) {
+            toast.success(message);
+            dispatch({ type: 'clearMessage' });
+
+        }
+
+        dispatch(getUsers());
+    }, [dispatch, error, message]);
 
     return (
         <Grid css={{ cursor: `url(${cursor}), default` }} minHeight={"100vh"} templateColumns={["1fr", "5fr 1fr"]}>
 
-            {loading ? <Loader color='green.500' /> : <Box padding={["0", "16"]} overflowX={"auto"}>
+            <Box padding={["0", "16"]} overflowX={"auto"}>
                 <Heading textTransform={"uppercase"}
                     children={"All users"}
                     my={"16"}
@@ -57,7 +68,7 @@ const Users = () => {
                         <Tbody>
                             {
                                 users && users.map((item) => {
-                                    return <Row key={item._id} item={item} deleteUserHandler={deleteUserHandler} updateHandler={updateHandler} />
+                                    return <Row loading={loading} key={item._id} item={item} deleteUserHandler={deleteUserHandler} updateHandler={updateHandler} />
                                 })
                             }
                         </Tbody>
@@ -65,7 +76,7 @@ const Users = () => {
                 </TableContainer>
             </Box>
 
-            }
+
             <Sidebar />
         </Grid>
     )
@@ -74,7 +85,7 @@ const Users = () => {
 export default Users
 
 
-function Row({ item, updateHandler, deleteUserHandler }) {
+function Row({ item, updateHandler, deleteUserHandler, loading }) {
     return (
         <Tr>
             <Td>
@@ -90,13 +101,13 @@ function Row({ item, updateHandler, deleteUserHandler }) {
                 {item.role}
             </Td>
             <Td>
-                {item.subscription.status === "active" ? "Active" : "Not Active"}
+                {item.subscription && item.subscription.status === "active" ? "Active" : "Not Active"}
             </Td>
             <Td isNumeric>
                 <HStack justifyContent={"flex"}
                 >
-                    <Button onClick={() => { updateHandler(item._id) }} variant={"outline"} color={"purple.500"}>Change Role</Button>
-                    <Button onClick={() => { deleteUserHandler(item._id) }} color={"red"}><RiDeleteBin7Fill /></Button>
+                    <Button isLoading={loading} onClick={() => { updateHandler(item._id) }} variant={"outline"} color={"purple.500"}>Change Role</Button>
+                    <Button isLoading={loading} onClick={() => { deleteUserHandler(item._id) }} color={"red"}><RiDeleteBin7Fill /></Button>
                 </HStack>
             </Td>
         </Tr>
