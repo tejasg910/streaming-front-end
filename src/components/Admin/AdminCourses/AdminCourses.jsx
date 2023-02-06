@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast'
 import { RiDeleteBin7Fill, RiGridLine } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import cursor from "../../../assets/images/cursor.png"
-import { deleteCourse, deleteLectures } from '../../../redux/actions/admin'
+import { addLectures, deleteCourse, deleteLectures } from '../../../redux/actions/admin'
 import { getAllCourses, getCourseLectures } from '../../../redux/actions/course'
 import Sidebar from '../Sidebar'
 import CourseModal from './CourseModal'
@@ -37,12 +37,20 @@ const AdminCourses = () => {
         await dispatch(getCourseLectures(_id))
         onOpen();
     }
-    const deleteLectureHandler = (lectureId) => {
-        dispatch(deleteLectures(courseId, lectureId))
+    const deleteLectureHandler = async (lectureId) => {
+        await dispatch(deleteLectures(courseId, lectureId))
         console.log(courseId, lectureId);
+        dispatch(getCourseLectures(courseId))
     }
-    const addLectureHandler = (e, coruseId, title, description, video) => {
+    const addLectureHandler = async (e, courseId, title, description, video) => {
         e.preventDefault();
+        const myForm = new FormData();
+        myForm.append('title', title)
+        myForm.append('description', description)
+        myForm.append('file', video)
+        await dispatch(addLectures(courseId, myForm))
+        dispatch(getCourseLectures(courseId));
+
     }
 
 
@@ -63,7 +71,7 @@ const AdminCourses = () => {
             dispatch({ type: "clearMessage" })
         }
 
-    }, [adminError, adminMessage]);
+    }, [adminError, adminMessage, dispatch]);
 
 
     return (
@@ -105,7 +113,7 @@ const AdminCourses = () => {
                         </Tbody>
                     </Table>
                 </TableContainer>
-                <CourseModal loading={loading} addLectureHandler={addLectureHandler} isOpen={isOpen} onClose={onClose} id={courseId} courseTitle={courseTitle} deleteLectureHandler={deleteLectureHandler} lectures={lectures} />
+                <CourseModal loading={loading} adminLoading={adminLoading} addLectureHandler={addLectureHandler} isOpen={isOpen} onClose={onClose} id={courseId} courseTitle={courseTitle} deleteLectureHandler={deleteLectureHandler} lectures={lectures} />
             </Box>
             <Sidebar />
         </Grid>

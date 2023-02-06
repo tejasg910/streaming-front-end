@@ -35,7 +35,7 @@ export const deleteLectures = (courseId, lectureId) => async dispatch => {
       }
     );
 
-    dispatch({ type: 'deleteLectureSuccess', payload: data.lectures });
+    dispatch({ type: 'deleteLectureSuccess', payload: data.message });
   } catch (error) {
     dispatch({
       type: 'deleteLectureFail',
@@ -55,6 +55,49 @@ export const deleteCourse = id => async dispatch => {
   } catch (error) {
     dispatch({
       type: 'deleteCourseFail',
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const addLectures = (id, formdata) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-type': 'multipart/form-data',
+      },
+      withCredentials: true,
+    };
+    dispatch({ type: 'addLectureRequest' });
+    const { data } = await axios.post(
+      `${server}/course/${id}`,
+      formdata,
+
+      config
+    );
+
+    dispatch({ type: 'addLectureSuccess', payload: data.message });
+  } catch (error) {
+    dispatch({
+      type: 'deleteCourseRequest',
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const getUsers = () => async dispatch => {
+  try {
+    dispatch({ type: 'getAllUsersRequest' });
+    const { data } = await axios.get(`${server}/admin/users`, {
+      headers: { 'Content-type': 'application/json' },
+      withCredentials: true,
+    });
+
+    dispatch({ type: 'getAllUsersSuccess', payload: data.users });
+    dispatch({ type: 'getAllUsersSuccess', payload: data.users });
+  } catch (error) {
+    dispatch({
+      type: 'getAllUsersFail',
       payload: error.response.data.message,
     });
   }

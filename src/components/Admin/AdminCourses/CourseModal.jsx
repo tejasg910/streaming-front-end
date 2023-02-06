@@ -1,10 +1,11 @@
 import { Box, Button, Grid, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, VStack } from '@chakra-ui/react'
+
 import React, { useState } from 'react'
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { fileUploadCss } from '../../Auth/Register';
 
 
-const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHandler, courseTitle, lectures, loading }) => {
+const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHandler, courseTitle, lectures, loading, adminLoading }) => {
     const fileUploadStyle = {
         "&::file-selector-button": fileUploadCss
     }
@@ -49,7 +50,7 @@ const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHand
                             <Heading children={"Lecutres"} size={"lg"} />
                             {lectures && lectures.length > 0 ? lectures.map((item, i) => (
                                 <VideoCard
-                                    loading={loading}
+                                    loading={adminLoading}
                                     key={i}
                                     title={item.title} description={item.description} num={i + 1} lectureId={item._id} courseId="48028023" deleteLectureHandler={() => {
                                         deleteLectureHandler(item._id)
@@ -63,7 +64,9 @@ const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHand
 
                         </Box>
                         <Box>
-                            <form onSubmit={(e, courseid, title, description, video) => { }}>
+                            <form onSubmit={e =>
+                                addLectureHandler(e, id, title, description, video)
+                            }>
                                 <VStack spacing={"4"}>
                                     <Heading children={"add lecture"} size={"md"} textTransform={"uppercase"} />
                                     <Input focusBorderColor='purple.300' placeholder='Title' value={title} onChange={(e) => { setTitle(e.target.value) }} />
@@ -86,7 +89,7 @@ const CourseModal = ({ isOpen, onClose, id, deleteLectureHandler, addLectureHand
 
                                     )}
 
-                                    <Button width={"full"} type={"submit"} color={"purple"}>Add lecture</Button>
+                                    <Button isLoading={adminLoading} width={"full"} type={"submit"} color={"purple"}>Add lecture</Button>
                                 </VStack>
                             </form>
                         </Box>

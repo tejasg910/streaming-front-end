@@ -1,18 +1,15 @@
 import { Box, Button, Grid, Heading, HStack, Tab, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import React from 'react'
+import { useEffect } from 'react'
 import { RiDeleteBin7Fill, RiGridLine } from 'react-icons/ri'
+import { useDispatch, useSelector } from 'react-redux'
 import cursor from "../../../assets/images/cursor.png"
+import { getUsers } from '../../../redux/actions/admin'
 import Sidebar from '../Sidebar'
+import Loader from "../../layout/Loader/Loader"
+import { toast } from 'react-hot-toast'
 const Users = () => {
-    const users = [{
-        _id: "43929309",
-        name: "tejas",
-        role: "admin",
-        subscription: {
-            status: "active"
-        },
-        email: "tejasgiri910@gmail.com"
-    }]
+    const { users, loading, error, message } = useSelector(state => state.admin)
     const deleteUserHandler = (_id) => {
         console.log(_id)
     }
@@ -20,12 +17,25 @@ const Users = () => {
     const updateHandler = (_id) => {
         console.log(_id)
     }
+    const dispatch = useDispatch();
+    useEffect(() => {
+
+        if (error) {
+            toast.error(error)
+            dispatch({ type: "clearError" })
+        }
+        if (message) {
+            toast.success(message)
+            dispatch({ type: "clearMessage" })
+        }
+        dispatch(getUsers())
+    }, [message, error]);
 
 
     return (
         <Grid css={{ cursor: `url(${cursor}), default` }} minHeight={"100vh"} templateColumns={["1fr", "5fr 1fr"]}>
 
-            <Box padding={["0", "16"]} overflowX={"auto"}>
+            {loading ? <Loader color='green.500' /> : <Box padding={["0", "16"]} overflowX={"auto"}>
                 <Heading textTransform={"uppercase"}
                     children={"All users"}
                     my={"16"}
@@ -46,7 +56,7 @@ const Users = () => {
                         </Thead>
                         <Tbody>
                             {
-                                users.map((item) => {
+                                users && users.map((item) => {
                                     return <Row key={item._id} item={item} deleteUserHandler={deleteUserHandler} updateHandler={updateHandler} />
                                 })
                             }
@@ -54,6 +64,8 @@ const Users = () => {
                     </Table>
                 </TableContainer>
             </Box>
+
+            }
             <Sidebar />
         </Grid>
     )
