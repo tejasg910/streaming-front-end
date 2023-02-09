@@ -141,3 +141,20 @@ export const updateUserRole = id => async dispatch => {
     });
   }
 };
+
+export const getAdminStats = () => async dispatch => {
+  try {
+    dispatch({ type: 'getADminStatsRequest' });
+    const { data } = await axios.get(`${server}/admin/stats`, {
+      headers: { 'Content-type': 'application/json' },
+      withCredentials: true,
+    });
+
+    dispatch({ type: 'getADminStatsSuccess', payload: data });
+  } catch (error) {
+    dispatch({
+      type: 'getADminStatsFail',
+      payload: error.response.data.message,
+    });
+  }
+};
