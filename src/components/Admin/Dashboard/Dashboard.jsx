@@ -60,7 +60,7 @@ const Dashboard = () => {
         stats,
 
 
-    } = useSelector(state => state.admin)
+    } = useSelector(state => state.adminStatus)
     useEffect(() => {
         dispatch(getAdminStats())
     }, []);
@@ -102,7 +102,7 @@ const Dashboard = () => {
                         <Heading textAlign={["center", "left"]} size={"md"} children={"Views Graph"} paddingTop={["8", "0"]} marginLeft={["0", "16"]} />
                         {/* Line graph here  */}
 
-                        <LineChart dataArray={stats} />
+                        <LineChart dataArray={stats.map(item => item.views)} />
                     </Box>
 
 

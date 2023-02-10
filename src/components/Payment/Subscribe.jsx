@@ -33,7 +33,7 @@ const Subscribe = ({ user }) => {
         dispatch({ type: "clearError" })
 
         if (subscriptionId) {
-            console.log(subscriptionId)
+
             const openPopUp = () => {
                 const options = {
                     key,
