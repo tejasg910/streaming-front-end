@@ -28,7 +28,6 @@ const AdminCourses = () => {
     const deleteCourseHandler = (_id) => {
         dispatch(deleteCourse(_id))
 
-        console.log(_id)
     }
 
     const courseDetailsHandler = async (_id, title) => {
@@ -39,7 +38,7 @@ const AdminCourses = () => {
     }
     const deleteLectureHandler = async (lectureId) => {
         await dispatch(deleteLectures(courseId, lectureId))
-        console.log(courseId, lectureId);
+
         dispatch(getCourseLectures(courseId))
     }
     const addLectureHandler = async (e, courseId, title, description, video) => {

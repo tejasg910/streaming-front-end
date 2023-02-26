@@ -57,7 +57,7 @@ const Header = ({ isAuthenticated = false, user }) => {
                                         <HStack>
 
                                             <Link onClick={onClose} to={"/profile"}><Button colorScheme={"cyan"} variant={"ghost"} >Profile</Button></Link>
-                                            <Button variant={"ghost"} onClick={() => {
+                                            <Button variant={"ghost"} color={"red.500"} onClick={() => {
                                                 logOutHandler();
                                                 onClose()
                                             }}>

@@ -92,7 +92,7 @@ const Courses = () => {
     useEffect(() => {
         dispatch(getAllCourses(category, keyword))
     }, []);
-    console.log(courses)
+
 
     return (
         <Container minH={"95vh"} maxW={"container.lg"} padding="8">
