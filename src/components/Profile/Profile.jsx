@@ -45,7 +45,7 @@ const Profile = ({ user }) => {
             dispatch({ type: "clearMessage" })
         }
         if (subscriptionError) {
-            toast.success(subscriptionError)
+            toast.error(subscriptionError)
 
             dispatch({ type: "clearError" })
         }
